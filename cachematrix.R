@@ -3,19 +3,19 @@
 ## Converts matrix to a custom object with an option to cache the inverse of a matrix.
 
 makeCacheMatrix <- function(x = matrix()) {
-  s <- NULL
+  i <- NULL
   set <- function(y) {
     x <<- y
-    s <<- NULL
+    i <<- NULL
   }
   get <- function() x
-  setsolve <- function(solve) s <<- solve
-  getsolve <- function() s
+  setinverse <- function(inverse) i <<- inverse
+  getinverse <- function() i
   list(
     set = set, 
     get = get,
-    setsolve = setsolve,
-    getsolve = getsolve
+    setinverse = setinverse,
+    getinverse = getinverse
     )
 }
 
@@ -23,13 +23,13 @@ makeCacheMatrix <- function(x = matrix()) {
 ## Inverses the matrix in the custom object from the function above. Returns cached result if possible.
 
 cacheSolve <- function(x, ...) {
-  s <- x$getsolve()
-  if(!is.null(s)) {
+  i <- x$getinverse()
+  if(!is.null(i)) {
     message("getting cached data")
-    return(s)
+    return(i)
   }
   data <- x$get()
-  s <- solve(data, ...)
-  x$setsolve(s)
-  s
+  i <- solve(data, ...)
+  x$setinverse(i)
+  i
 }
